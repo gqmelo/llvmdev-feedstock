@@ -6,6 +6,11 @@ language: generic
 os: osx
 osx_image: xcode6.4
 
+cache:
+  directories:
+  - $HOME/.ccache
+
+
 env:
   matrix:
     
@@ -21,10 +26,13 @@ before_install:
     - |
       echo ""
       echo "Removing homebrew from Travis CI to avoid conflicts."
+      cp /usr/local/bin/md5deep /tmp || echo "Could not copy md5deep binary, this happens when travis get a cache miss"
       curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
       chmod +x ~/uninstall_homebrew
       ~/uninstall_homebrew -fq
       rm ~/uninstall_homebrew
+      cp /tmp/md5deep /usr/local/bin/md5deep || echo "Could not copy md5deep binary, this happens when travis get a cache miss"
+      md5deep -h || echo "Could not copy md5deep binary, this happens when travis get a cache miss"
 
 
 install:
