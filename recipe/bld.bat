@@ -1,6 +1,13 @@
 mkdir build
 cd build
 
+set CC=clcache
+set CXX=clcache
+clcache -M 1000000000
+set "CLCACHE_BASEDIR=%SRC_DIR%
+set CLCACHE_NODIRECT=1
+clcache -z
+
 cmake -G "Ninja" ^
     -DCMAKE_BUILD_TYPE="Release" ^
     -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
@@ -14,8 +21,16 @@ cmake -G "Ninja" ^
 
 if errorlevel 1 exit 1
 
+echo "################"
+echo %CC%
+echo %CXX%
+clcache -s
+echo "################"
+
 ninja -j%CPU_COUNT%
 if errorlevel 1 exit 1
+
+clcache -s
 
 ninja install
 if errorlevel 1 exit 1

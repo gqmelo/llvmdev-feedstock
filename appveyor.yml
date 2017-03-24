@@ -2,6 +2,9 @@
 # file, make changes to conda-forge.yml and/or recipe/meta.yaml, and run
 # "conda smithy rerender".
 
+cache:
+  - '%USERPROFILE%\clcache'
+
 environment:
 
   # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the

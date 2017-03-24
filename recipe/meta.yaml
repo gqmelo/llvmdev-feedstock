@@ -46,6 +46,7 @@ requirements:
   build:
     - toolchain
     - ccache  # [not win]
+    - clcache  # [win]
     - cmake
     # Needed to unpack the source tarball
     - m2-xz  # [py27 and win32]
