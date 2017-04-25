@@ -7,6 +7,7 @@ os: osx
 osx_image: xcode6.4
 
 cache:
+  branch: no-md5deep
   directories:
   - $HOME/.ccache
 
