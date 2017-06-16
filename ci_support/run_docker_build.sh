@@ -62,14 +62,20 @@ source run_conda_forge_build_setup
     export LLVM_VARIANT=cling
     export CONDA_PY=36
     set +x
-    conda build /recipe_root --quiet || exit 1
+    # ccache uses the compiler command line to generate the cache keys, so we can't have a
+    # different path for every build. ccache provides CCACHE_BASEDIR variable to solve this
+    # but it's better to avoid setting it as it has some side effects.
+    conda build --no-build-id /recipe_root --quiet || exit 1
     upload_or_check_non_existence /recipe_root conda-forge --channel=main || exit 1
 
     set -x
     export LLVM_VARIANT=default
     export CONDA_PY=36
     set +x
-    conda build /recipe_root --quiet || exit 1
+    # ccache uses the compiler command line to generate the cache keys, so we can't have a
+    # different path for every build. ccache provides CCACHE_BASEDIR variable to solve this
+    # but it's better to avoid setting it as it has some side effects.
+    conda build --no-build-id /recipe_root --quiet || exit 1
     upload_or_check_non_existence /recipe_root conda-forge --channel=main || exit 1
 touch /feedstock_root/build_artefacts/conda-forge-build-done
 EOF

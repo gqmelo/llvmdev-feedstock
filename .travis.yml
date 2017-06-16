@@ -5,6 +5,9 @@ language: generic
 
 os: osx
 osx_image: xcode6.4
+cache:
+  directories:
+  - $HOME/.ccache
 
 env:
   matrix:
@@ -55,6 +58,9 @@ install:
       source run_conda_forge_build_setup
 
 script:
-  - conda build ./recipe
+  # ccache uses the compiler command line to generate the cache keys, so we can't have a
+  # different path for every build. ccache provides CCACHE_BASEDIR variable to solve this
+  # but it's better to avoid setting it as it has some side effects.
+  - conda build --no-build-id ./recipe
 
   - upload_or_check_non_existence ./recipe conda-forge --channel=main
